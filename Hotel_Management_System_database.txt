@@ -1,0 +1,37 @@
+-- 1️⃣ Create the database
+CREATE DATABASE hotel_db;
+
+-- 2️⃣ Use the database
+USE hotel_db;
+
+-- 3️⃣ Create the 'rooms' table
+CREATE TABLE rooms (
+    RoomID INT PRIMARY KEY AUTO_INCREMENT,
+    RoomType VARCHAR(50) NOT NULL,
+    Price DECIMAL(10,2) NOT NULL,
+    Availability ENUM('Available', 'Booked') DEFAULT 'Available'
+);
+
+-- 4️⃣ Create the 'customers' table
+CREATE TABLE customers (
+    CustomerID INT PRIMARY KEY AUTO_INCREMENT,
+    CustomerName VARCHAR(100) NOT NULL,
+    RoomID INT,
+    FOREIGN KEY (RoomID) REFERENCES rooms(RoomID) ON DELETE SET NULL
+);
+
+-- 5️⃣ Create the 'billing' table
+CREATE TABLE billing (
+    BillID INT PRIMARY KEY AUTO_INCREMENT,
+    CustomerID INT,
+    Amount DECIMAL(10,2),
+    BillDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (CustomerID) REFERENCES customers(CustomerID) ON DELETE CASCADE
+);
+
+-- 6️⃣ Insert sample rooms data
+INSERT INTO rooms (RoomType, Price, Availability) VALUES
+('Single', 1500.00, 'Available'),
+('Double', 2500.00, 'Available'),
+('Suite', 5000.00, 'Available'),
+('Deluxe', 4000.00, 'Available');
